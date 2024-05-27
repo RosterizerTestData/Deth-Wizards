@@ -1,0 +1,2568 @@
+{
+  "name": "Deth Wizards",
+  "revision": "0.0.1",
+  "game": "Deth Wizards",
+  "genre": "fantasy",
+  "publisher": "Snarling Badger Studios",
+  "url": "https://www.snarlingbadger.com/dethwizards",
+  "notes": "",
+  "wip": false,
+  "rulebook": {
+    "assetTaxonomy": {
+      "Lair": {},
+      "Minion": {
+        "aspects": {
+          "Describe": true,
+          "Rename": true,
+          "Type": "game piece"
+        },
+        "keywords": {
+          "Type": []
+        },
+        "meta": {
+          "ttsDamageStat": "Durability",
+          "ttsStatDisplay": "Rating,Movement,Offense,Rng,Defense,Resist,Durability"
+        },
+        "rules": {
+          "applyBuilt": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Built",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 10
+          },
+          "applyEvolution": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Evolution",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 10
+          }
+        },
+        "stats": {
+          "Built": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              },
+              "Durability": {
+                "order": 5
+              }
+            },
+            "statOrder": 1,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "hidden"
+          },
+          "Defense": {
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Durability": {
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 5,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Evolution": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              },
+              "Durability": {
+                "order": 5
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "hidden"
+          },
+          "Movement": {
+            "format": "{v}″",
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Offense": {
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 2,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Rating": {
+            "group": "Cost",
+            "groupOrder": -1,
+            "statType": "numeric",
+            "tracked": true,
+            "value": null,
+            "visibility": "always"
+          },
+          "Resist": {
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Rng": {
+            "format": "{v}″",
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 2,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Necromancer": {
+        "allowed": {
+          "classifications": [
+            "Necromantic Power"
+          ]
+        },
+        "aspects": {
+          "Describe": true,
+          "Group Includes": true,
+          "Group Traits": true,
+          "Label": "Necromancer",
+          "Rename": true,
+          "Type": "game piece"
+        },
+        "assets": {
+          "traits": [
+            "Necromantic Power§Dark Shield",
+            "Necromantic Power§Negative Bolt",
+            "Necromantic Power§Restore Energy"
+          ]
+        },
+        "constraints": {
+          "none": [
+            "Legacy",
+            "Universal"
+          ]
+        },
+        "meta": {
+          "ttsDamageStat": "Energy",
+          "ttsStatDisplay": "Movement,Offense,Defense,Resist,Energy"
+        },
+        "rules": {
+          "changeBase": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "item"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Base",
+                  "processed",
+                  "term",
+                  "current"
+                ]
+              },
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    [
+                      "Boost 1",
+                      "Boost 2"
+                    ],
+                    "visibility"
+                  ]
+                ],
+                "value": "active"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Base",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 0
+          },
+          "increaseStat1": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionType": "remove",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Boost 2",
+                    "ranks"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Boost 1",
+                  "value"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Boost 1",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 1
+          },
+          "increaseStat2": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionType": "remove",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Boost 1",
+                    "ranks"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Boost 2",
+                  "value"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Boost 2",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 1
+          },
+          "modifyPowersTally": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Necromantic Power"
+                  ]
+                ],
+                "value": [
+                  "{this}",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": -1
+                },
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{self}",
+                    "tally",
+                    "Legacy"
+                  ],
+                  [
+                    "{self}",
+                    "tally",
+                    "Universal"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "removeRank1": {
+            "evals": []
+          },
+          "Select your necromancer’s base stats.": {
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Base",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Base": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "1": {
+                "order": 1,
+                "term": "Necromancer§1"
+              },
+              "2": {
+                "order": 2,
+                "term": "Necromancer§2"
+              },
+              "3": {
+                "order": 3,
+                "term": "Necromancer§3"
+              },
+              "-": {
+                "order": 0
+              }
+            },
+            "statOrder": 0,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "active"
+          },
+          "Boost 1": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "label": "Boost",
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              },
+              "Energy": {
+                "order": 5
+              }
+            },
+            "statOrder": 1,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "hidden"
+          },
+          "Boost 2": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "label": "Boost",
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              },
+              "Energy": {
+                "order": 5
+              }
+            },
+            "statOrder": 1,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "hidden"
+          },
+          "Defense": {
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 3,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Energy": {
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 5,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Legacy": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Dread Horde Master": {
+                "order": 1,
+                "traits": [
+                  {
+                    "trait": "Special§Dread Master"
+                  },
+                  {
+                    "trait": "Necromantic Power§Corpse Bomb"
+                  }
+                ]
+              },
+              "War Reaper": {
+                "order": 2,
+                "traits": [
+                  {
+                    "trait": "Special§Reaper of Flesh"
+                  },
+                  {
+                    "trait": "Necromantic Power§Ruinous Touch"
+                  }
+                ]
+              },
+              "Controller": {
+                "order": 3,
+                "traits": [
+                  {
+                    "trait": "Necromantic Power§Traitorous Strike"
+                  },
+                  {
+                    "trait": "Necromantic Power§Appropriate Undead"
+                  }
+                ]
+              },
+              "Monster Master": {
+                "order": 4,
+                "traits": [
+                  {
+                    "trait": "Special§Built to Perfection"
+                  },
+                  {
+                    "trait": "Special§Continued Evolution"
+                  }
+                ]
+              },
+              "Spirit Caller": {
+                "order": 5,
+                "traits": [
+                  {
+                    "trait": "Special§Soul Herder"
+                  },
+                  {
+                    "trait": "Necromantic Power§Call to the Other Side"
+                  }
+                ]
+              },
+              "Stitcher": {
+                "order": 6,
+                "traits": [
+                  {
+                    "trait": "Special§Aura of Repair"
+                  },
+                  {
+                    "trait": "Necromantic Power§Remove from Harm"
+                  }
+                ]
+              }
+            },
+            "statOrder": 2,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "always"
+          },
+          "Movement": {
+            "format": "{v}″",
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Necromantic Power": {
+            "group": "Config",
+            "groupOrder": 2,
+            "label": "Powers",
+            "max": 3,
+            "statOrder": 4,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "active"
+          },
+          "Offense": {
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 2,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Resist": {
+            "group": "Stats",
+            "groupOrder": 1,
+            "statOrder": 4,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Necromantic Power": {
+        "aspects": {
+          "Lock Qty": true,
+          "Unique": true
+        },
+        "keywords": {
+          "Keywords": [],
+          "Tags": [
+            "pwr"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "group": "Cost",
+            "groupOrder": -1,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Power Dice": {
+            "format": "{v}D10",
+            "statOrder": 1,
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          },
+          "Range": {
+            "format": "{v}″",
+            "statType": "numeric",
+            "value": null,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Special": {}
+    },
+    "assetCatalog": {
+      "Lair§Lair": {},
+      "Minion§Banshee": {
+        "assets": {
+          "traits": [
+            "Special§Ethereal",
+            "Special§Keening Wail",
+            "Special§Death Scream"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Spirit"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 5
+          },
+          "Durability": {
+            "value": 16
+          },
+          "Movement": {
+            "format": "{v}″ fly",
+            "value": 9
+          },
+          "Offense": {
+            "value": 7
+          },
+          "Rating": {
+            "value": 4
+          },
+          "Resist": {
+            "value": 8
+          }
+        }
+      },
+      "Minion§Death Knight": {
+        "assets": {
+          "traits": [
+            "Special§Necromantic Power",
+            "Special§Deadly Duelist",
+            "Special§Cruel Blades"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Rattler"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 9
+          },
+          "Durability": {
+            "value": 19
+          },
+          "Movement": {
+            "value": 5
+          },
+          "Offense": {
+            "value": 9
+          },
+          "Rating": {
+            "value": 4
+          },
+          "Resist": {
+            "value": 6
+          }
+        }
+      },
+      "Minion§Flesh Golem": {
+        "assets": {
+          "traits": [
+            "Special§Unstoppable Brute",
+            "Special§Enraged Monstrosity",
+            "Special§Constructed"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Shambler"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 8
+          },
+          "Durability": {
+            "value": 24
+          },
+          "Movement": {
+            "value": 5
+          },
+          "Offense": {
+            "value": 7
+          },
+          "Rating": {
+            "value": 4
+          },
+          "Resist": {
+            "value": 6
+          }
+        }
+      },
+      "Minion§Ghast": {
+        "assets": {
+          "traits": [
+            "Special§Scampering Claws",
+            {
+              "item": "Special§Feasting Rejuvenation",
+              "stats": {
+                "x": {
+                  "value": 2
+                }
+              }
+            },
+            "Special§Rotting Stench"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Feeder"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 4
+          },
+          "Durability": {
+            "value": 15
+          },
+          "Movement": {
+            "value": 7
+          },
+          "Offense": {
+            "value": 7
+          },
+          "Rating": {
+            "value": 3
+          },
+          "Resist": {
+            "value": 5
+          }
+        }
+      },
+      "Minion§Ghost": {
+        "assets": {
+          "traits": [
+            "Special§Ethereal",
+            "Special§Aging Vision",
+            "Special§Absorb Essence"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Spirit"
+          ],
+          "Tags": []
+        },
+        "stats": {
+          "Defense": {
+            "value": 6
+          },
+          "Durability": {
+            "value": 13
+          },
+          "Movement": {
+            "format": "{v}″ fly",
+            "value": 8
+          },
+          "Offense": {
+            "value": 6
+          },
+          "Rating": {
+            "value": 3
+          },
+          "Resist": {
+            "value": 5
+          }
+        }
+      },
+      "Minion§Ghoul": {
+        "assets": {
+          "traits": [
+            "Special§Scampering Claws",
+            "Special§Feasting Rejuvenation"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Feeder"
+          ],
+          "Tags": [
+            "<=2"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Durability": {
+            "value": 10
+          },
+          "Movement": {
+            "value": 7
+          },
+          "Offense": {
+            "value": 5
+          },
+          "Rating": {
+            "value": 2
+          },
+          "Resist": {
+            "value": 4
+          }
+        }
+      },
+      "Minion§Giant Skeleton": {
+        "assets": {
+          "traits": [
+            "Special§Nothing but Bones",
+            "Special§Sweeping Strikes"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Rattler"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 8
+          },
+          "Durability": {
+            "value": 16
+          },
+          "Movement": {
+            "value": 8
+          },
+          "Offense": {
+            "value": 7
+          },
+          "Rating": {
+            "value": 3
+          },
+          "Resist": {
+            "value": 4
+          }
+        }
+      },
+      "Minion§Giant Zombie": {
+        "assets": {
+          "traits": [
+            "Special§Rotting End",
+            "Special§Swallow Whole"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Shambler"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 5
+          },
+          "Durability": {
+            "value": 20
+          },
+          "Movement": {
+            "value": 4
+          },
+          "Offense": {
+            "value": 6
+          },
+          "Rating": {
+            "value": 3
+          },
+          "Resist": {
+            "value": 4
+          }
+        }
+      },
+      "Minion§Mummy": {
+        "assets": {
+          "traits": [
+            "Special§Unraveled Flight",
+            "Special§Cursed Touch"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Shambler"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 7
+          },
+          "Durability": {
+            "value": 16
+          },
+          "Movement": {
+            "value": 4
+          },
+          "Offense": {
+            "value": 7
+          },
+          "Rating": {
+            "value": 3
+          },
+          "Resist": {
+            "value": 6
+          }
+        }
+      },
+      "Minion§Revenant": {
+        "assets": {
+          "traits": [
+            "Special§Quest for Vengeance",
+            "Special§Too Driven to Die"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Shambler"
+          ],
+          "Tags": [
+            "<=2"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Durability": {
+            "value": 11
+          },
+          "Movement": {
+            "value": 5
+          },
+          "Offense": {
+            "value": 6
+          },
+          "Rating": {
+            "value": 2
+          },
+          "Resist": {
+            "value": 7
+          }
+        }
+      },
+      "Minion§Shadow": {
+        "assets": {
+          "traits": [
+            "Special§Ethereal",
+            "Special§Drain Energy"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Spirit"
+          ],
+          "Tags": [
+            "<=2"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 4
+          },
+          "Durability": {
+            "value": 9
+          },
+          "Movement": {
+            "format": "{v}″ fly",
+            "value": 8
+          },
+          "Offense": {
+            "value": 5
+          },
+          "Rating": {
+            "value": 2
+          },
+          "Resist": {
+            "value": 4
+          }
+        }
+      },
+      "Minion§Skeleton": {
+        "assets": {
+          "traits": [
+            "Special§Nothing but Bones"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Rattler"
+          ],
+          "Tags": [
+            "<=2"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 5
+          },
+          "Durability": {
+            "value": 9
+          },
+          "Movement": {
+            "value": 6
+          },
+          "Offense": {
+            "value": 4
+          },
+          "Rating": {
+            "value": 1
+          },
+          "Resist": {
+            "value": 4
+          },
+          "Rng": {}
+        }
+      },
+      "Minion§Skeleton Archer": {
+        "assets": {
+          "traits": [
+            "Special§Nothing but Bones"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Rattler"
+          ],
+          "Tags": [
+            "<=2"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Durability": {
+            "value": 7
+          },
+          "Movement": {
+            "value": 6
+          },
+          "Offense": {
+            "value": 3
+          },
+          "Rating": {
+            "value": 1
+          },
+          "Resist": {
+            "value": 4
+          },
+          "Rng": {
+            "value": 15
+          }
+        }
+      },
+      "Minion§Specter": {
+        "assets": {
+          "traits": [
+            "Special§Ethereal",
+            "Special§Black Bolt"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Spirit"
+          ],
+          "Tags": [
+            "<=2"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 4
+          },
+          "Durability": {
+            "value": 8
+          },
+          "Movement": {
+            "format": "{v}″ fly",
+            "value": 8
+          },
+          "Offense": {
+            "value": 5
+          },
+          "Rating": {
+            "value": 2
+          },
+          "Resist": {
+            "value": 5
+          },
+          "Rng": {
+            "value": 10
+          }
+        }
+      },
+      "Minion§Vampire": {
+        "assets": {
+          "traits": [
+            "Special§Preternatural Speed",
+            "Special§Blood Drain",
+            "Special§Discorporate"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Feeder"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 8
+          },
+          "Durability": {
+            "value": 18
+          },
+          "Movement": {
+            "format": "{v}″ fly",
+            "value": 7
+          },
+          "Offense": {
+            "value": 8
+          },
+          "Rating": {
+            "value": 4
+          },
+          "Resist": {
+            "value": 6
+          }
+        }
+      },
+      "Minion§Vampire Spawn": {
+        "assets": {
+          "traits": [
+            "Special§Blood Frenzy"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Feeder"
+          ],
+          "Tags": [
+            "<=2"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 4
+          },
+          "Durability": {
+            "value": 9
+          },
+          "Movement": {
+            "value": 7
+          },
+          "Offense": {
+            "value": 5
+          },
+          "Rating": {
+            "value": 1
+          },
+          "Resist": {
+            "value": 3
+          }
+        }
+      },
+      "Minion§Wight": {
+        "assets": {
+          "traits": [
+            "Special§Eternal Servant",
+            "Special§Crippling Strike"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Rattler"
+          ],
+          "Tags": [
+            "<=2"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 5
+          },
+          "Durability": {
+            "value": 14
+          },
+          "Movement": {
+            "value": 6
+          },
+          "Offense": {
+            "value": 4
+          },
+          "Rating": {
+            "value": 2
+          },
+          "Resist": {
+            "value": 6
+          }
+        }
+      },
+      "Minion§Wraith": {
+        "assets": {
+          "traits": [
+            "Special§Ethereal",
+            "Special§Burning Hatred",
+            "Special§Lost in Shadows"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Spirit"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 4
+          },
+          "Durability": {
+            "value": 12
+          },
+          "Movement": {
+            "format": "{v}″ fly",
+            "value": 8
+          },
+          "Offense": {
+            "value": 6
+          },
+          "Rating": {
+            "value": 3
+          },
+          "Resist": {
+            "value": 5
+          }
+        }
+      },
+      "Minion§Zombie": {
+        "assets": {
+          "traits": [
+            "Special§Rotting End"
+          ]
+        },
+        "keywords": {
+          "Type": [
+            "Shambler"
+          ],
+          "Tags": [
+            "<=2"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Durability": {
+            "value": 10
+          },
+          "Movement": {
+            "value": 4
+          },
+          "Offense": {
+            "value": 3
+          },
+          "Rating": {
+            "value": 1
+          },
+          "Resist": {
+            "value": 4
+          }
+        }
+      },
+      "Necromancer§0": {},
+      "Necromancer§1": {
+        "stats": {
+          "Defense": {
+            "value": 6
+          },
+          "Energy": {
+            "value": 13
+          },
+          "Movement": {
+            "value": 5
+          },
+          "Offense": {
+            "value": 3
+          },
+          "Resist": {
+            "value": 4
+          }
+        }
+      },
+      "Necromancer§2": {
+        "stats": {
+          "Defense": {
+            "value": 7
+          },
+          "Energy": {
+            "value": 9
+          },
+          "Movement": {
+            "value": 6
+          },
+          "Offense": {
+            "value": 6
+          },
+          "Resist": {
+            "value": 4
+          }
+        }
+      },
+      "Necromancer§3": {
+        "stats": {
+          "Defense": {
+            "value": 5
+          },
+          "Energy": {
+            "value": 17
+          },
+          "Movement": {
+            "value": 5
+          },
+          "Offense": {
+            "value": 3
+          },
+          "Resist": {
+            "value": 4
+          }
+        }
+      },
+      "Necromantic Power§Appropriate Undead": {
+        "keywords": {
+          "Tags": [],
+          "Keywords": [
+            "Legacy"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 8
+          },
+          "Power Dice": {
+            "value": 7
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** One enemy undead within range that they can see \n\n**Effect:** If the Necromancer has at least three successes, the targeted undead is now under the Necromancer’s control for the remainder of the game."
+      },
+      "Necromantic Power§Atrophic Blast": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          },
+          "Power Dice": {
+            "value": 5
+          },
+          "Range": {
+            "value": 12
+          }
+        },
+        "text": "**Targets:** Up to 3 enemy models within range \n\n**Effect:** Targets suffer 1D3 damage per success. If the Necromancer achieves 3 successes against any target, that target is also Weakened (see page 49) until the end of the turn."
+      },
+      "Necromantic Power§Banishing Words": {
+        "stats": {
+          "Cost": {
+            "value": 5
+          },
+          "Power Dice": {
+            "value": 4
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** All enemy models within range \n\n**Effect:** If the Necromancer achieves at least 1 success, the target suffers 1D6Kevin Duda (Order #43994419) 32 damage. If the target is a Spirit, they instead suffer 1D10 damage from this power. If an enemy suffers damage from this power, they are immediately pushed back 4″ directly away from the Necromancer."
+      },
+      "Necromantic Power§Black Blade": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 2
+          },
+          "Range": {
+            "format": "{v}",
+            "statType": "term",
+            "value": "Self"
+          }
+        },
+        "text": "**Targets:** The Necromancer \n\n**Effect:** Until the end of the turn, the Necromancer’s Offense increases by 3."
+      },
+      "Necromantic Power§Blasting Bolt": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 3
+          },
+          "Power Dice": {
+            "value": 5
+          },
+          "Range": {
+            "value": 12
+          }
+        },
+        "text": "**Targets:** One enemy model within range \n\n**Effect:** If the Necromancer achieves at least 1 success, the target suffers 1D6 damage. If the Necromancer achieves at least 3 successes, the target suffers 2D6 damage. If a model suffers damage from this power, they are moved up to 6″ directly away from the Necromancer. If this movement carries them into dangerous terrain, the model suffers any effects of that terrain. The model may not be moved into an illegal position."
+      },
+      "Necromantic Power§Bolster Undead": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** Up to 3 friendly undead within range \n\n**Effect:** If only one target is chosen for this Necromantic Power, the Offense and Defense of that undead is increased by 2. If two targets are chosen, each of those targets has their Offense and Defense increased by 1. If three targets are chosen, each target has either its Offense or Defense increased by 1 (Necromancer’s choice). These bonuses last until the end of the turn."
+      },
+      "Necromantic Power§Call to the Other Side": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ],
+          "Keywords": [
+            "Legacy"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "statType": "term",
+            "value": "3 * x",
+            "visibility": "normal"
+          },
+          "Range": {
+            "value": 3
+          }
+        },
+        "text": "**Effect:** As an action, the Necromancer may use this power to summon an undead of the Spirit type. This Necromantic Power costs 3 Necromantic Energy per Rating of the undead summoned. The summoned undead must be set up within 3″ of the Necromancer and more than 1″ away from all enemies. If this cannot be done, then the summoning fails and the Necromantic Energy is lost. The summoned spirit may be activated during a later activation during the turn in which it was summoned. At the end of the game, the undead returns to the spirit realm and is removed from your roster. The Necromancer may use this power to summon multiple spirits, but may never have more than 5 total Rating worth of undead active and summoned at the same time by this power."
+      },
+      "Necromantic Power§Chilling Touch": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 1
+          },
+          "Power Dice": {
+            "value": 3
+          },
+          "Range": {
+            "value": 1
+          }
+        },
+        "text": "**Targets:** One enemy model within range \n\n**Effect:** If the Necromancer achieves at least 1 success, the target suffers 1D10 damage. If the target suffers any damage, for the remainder of that turn, the target may not regain Durability."
+      },
+      "Necromantic Power§Cloak in Shadow": {
+        "stats": {
+          "Cost": {
+            "statType": "term",
+            "value": "6/10"
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** 1 friendly undead within range / 3 friendly undead within range \n\n**Effect:** The targeted undead become Hidden."
+      },
+      "Necromantic Power§Corpse Bomb": {
+        "keywords": {
+          "Tags": [],
+          "Keywords": [
+            "Legacy"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 5
+          },
+          "Range": {
+            "format": "{v}",
+            "statType": "term",
+            "value": "Special"
+          }
+        },
+        "text": "**Targets:** One undead under the Necromancer’s control that the Necromancer can see \n\n**Effect:** Select one friendly Necromantic Minion; that minion immediately explodes. Roll a number of D10s equal to that minion’s remaining Durability and compare the results to the Defense of all creatures within 3″ of that minion (effectively making a combat attack against all creatures within 3″). Each creature within range suffers damage equal to the number of results that equal or exceed their Defense. For example, if you targeted a Skeleton with a Durability of 8, you would roll 8 dice and compare the results of that roll to the Defense of each creature within range."
+      },
+      "Necromantic Power§Dark Shield": {
+        "keywords": {
+          "Keywords": [
+            "Universal"
+          ],
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 1
+          },
+          "Range": {
+            "format": "{v}",
+            "statType": "term",
+            "value": "Self"
+          }
+        },
+        "text": "**Targets:** The Necromancer \n\n**Effect:** All damage from the triggering attack or power is reduced to 0. Any other effects or conditions from the attack or power are negated.\n\n**Special:** This Necromantic Power may only be utilized in response to the Necromancer being damaged or affected by an attack or power. Once the Necromancer utilizes this power, they may not do so again until they activate. Each time the Necromancer activates, the ability to utilize this power refreshes. This power does not count as an action."
+      },
+      "Necromantic Power§Darkflame Weapons": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "statType": "term",
+            "value": "2/5"
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** 1 friendly undead within range / all friendly undead within range \n\n**Effect:** All targets affected by this power increase their Offense by 1. In addition, whenever they score a Critical Hit, they deal 1 additional damage. These bonuses last until the end of the turn."
+      },
+      "Necromantic Power§Draining Wave": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          },
+          "Power Dice": {
+            "value": 3
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** All non-spirit enemy models within range \n\n**Effect:** All targets suffer 1D3 damage per success. If the target is a Hero, they suffer 1D6 damage instead."
+      },
+      "Necromantic Power§Energy Infusion": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "statType": "term",
+            "value": "2/5"
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** 1 friendly undead within range / Up to 3 friendly undead within range \n\n**Effect:** All targets may move their movement speed or 6″, whichever is lower."
+      },
+      "Necromantic Power§Eruption of Death": {
+        "stats": {
+          "Cost": {
+            "value": 8
+          },
+          "Power Dice": {
+            "value": 7
+          },
+          "Range": {
+            "value": 3
+          }
+        },
+        "text": "**Targets:** All models within range \n\n**Effect:** All targets other than the Necromancer suffer 1D6 damage per success."
+      },
+      "Necromantic Power§Fell Armor": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 3
+          },
+          "Range": {
+            "format": "{v}",
+            "statType": "term",
+            "value": "Self"
+          }
+        },
+        "text": "**Targets:** The Necromancer \n\n**Effect:** Until the end of the turn, the Necromancer’s Defense increases by 1. In addition, whenever any enemy makes a melee range attack against the Necromancer, that enemy suffers 2 damage after that attack is resolved."
+      },
+      "Necromantic Power§Grasping Tendrils": {
+        "stats": {
+          "Cost": {
+            "value": 5
+          },
+          "Power Dice": {
+            "value": 3
+          },
+          "Range": {
+            "value": 18
+          }
+        },
+        "text": "**Targets:** Up to 3 enemy models within range \n\n**Effect:** The target suffers 1D3 damage per success and gains the Slowed condition (see page 49) until the end of the turn."
+      },
+      "Necromantic Power§Miasma of Shadows": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          },
+          "Power Dice": {
+            "value": 3
+          },
+          "Range": {
+            "value": 18
+          }
+        },
+        "text": "**Targets:** One enemy model within range \n\n**Effect:** If the Necromancer achieves at least 1 success, the target suffers 1D6 damage and loses line of sight to all other models until the end of the turn."
+      },
+      "Necromantic Power§Negative Bolt": {
+        "keywords": {
+          "Keywords": [
+            "Universal"
+          ],
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 3
+          },
+          "Power Dice": {
+            "value": 4
+          },
+          "Range": {
+            "value": 18
+          }
+        },
+        "text": "**Targets:** One enemy model within range \n\n**Effect:** If the Necromancer achieves at least 1 success, the target suffers 1D10 damage. If the Necromancer achieves at least 3 successes, the target suffers an additional 1D6 damage. If this damage kills or destroys its target, the Necromancer gains 3 Necromantic Energy."
+      },
+      "Necromantic Power§Night Shield": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** Up to 3 friendly undead within range \n\n**Effect:** The Necromantic Minions increase their Resist by 2."
+      },
+      "Necromantic Power§Reanimate": {
+        "stats": {
+          "Cost": {
+            "value": 6
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Effect:** The Necromancer selects a single friendly undead, Rating 1 or 2, that was destroyed earlier in the game. That model is returned to play. It must be set up within 3″ of the Necromancer and more than 3″ from all enemies. It may activate as normal later in that turn."
+      },
+      "Necromantic Power§Reflecting Blast": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          },
+          "Range": {
+            "value": 1
+          }
+        },
+        "text": "**Targets:** The enemy that has made an attack that has damaged or affected the Necromancer \n\n**Effect:** All damage from the triggering attack or power is reduced to 0. Any other effects or conditions from the attack or power are negated. In addition, the attacker suffers ½ of the damage they would have dealt to the Necromancer (rounding up). \n\n**Special:** This Necromantic Power may only be utilized in response to the Necromancer being damaged or affected by an attack or power. This power does not count as an action."
+      },
+      "Necromantic Power§Remove from Harm": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ],
+          "Keywords": [
+            "Legacy"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 3
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** One or two friendly undead within range and line of sight \n\n**Effect:** Up to two friendly undead within range of this power may teleport to any other location that the Necromancer can see within 12″ of the Necromancer that is not within 3″ of an enemy."
+      },
+      "Necromantic Power§Restore Energy": {
+        "keywords": {
+          "Keywords": [
+            "Universal"
+          ],
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Range": {
+            "value": 3
+          }
+        },
+        "text": "**Targets:** One friendly Necromantic Minion \n\n**Effect:** The Necromancer chooses one friendly Necromantic Minion in range; that model is Removed from Play and the Necromancer gains 3 Necromantic Energy per Rating of the undead destroyed by this power."
+      },
+      "Necromantic Power§Revelation": {
+        "stats": {
+          "Cost": {
+            "value": 5
+          },
+          "Range": {
+            "value": 6
+          }
+        },
+        "text": "**Targets:** All models in range \n\n**Effect:** All Hidden models within range lose Hidden."
+      },
+      "Necromantic Power§Rotting Curse": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 2
+          },
+          "Power Dice": {
+            "value": 4
+          },
+          "Range": {
+            "value": 15
+          }
+        },
+        "text": "**Targets:** One enemy model within range \n\n**Effect:** The target suffers 1D3 damage per success. If the target suffers any damage from this power, they are Cursed (see page 49) for the remainder of the game."
+      },
+      "Necromantic Power§Ruinous Touch": {
+        "keywords": {
+          "Tags": [],
+          "Keywords": [
+            "Legacy"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 4
+          },
+          "Power Dice": {
+            "value": 8
+          },
+          "Range": {
+            "value": 1
+          }
+        },
+        "text": "**Targets:** One enemy \n\n**Effect:** For each success, reduce the Defense of the target by 1 until the end of the turn."
+      },
+      "Necromantic Power§Shadow Switch": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          },
+          "Range": {
+            "value": 18
+          }
+        },
+        "text": "**Targets:** 2 friendly undead within range \n\n**Effect:** The Necromancer chooses two friendly Necromantic Minions within range and swaps their position (i.e., each is moved to the exact position where the other was located). Models may not be placed on other models. If this swap would place a model in an illegal position for any reason, this power fails."
+      },
+      "Necromantic Power§Shadowed Escape": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 2
+          },
+          "Range": {
+            "format": "{v}",
+            "statType": "term",
+            "value": "Self"
+          }
+        },
+        "text": "**Targets:** The Necromancer \n\n**Effect:** The Necromancer may teleport to any location they can see within 12″."
+      },
+      "Necromantic Power§Stitch Together": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 3
+          },
+          "Range": {
+            "value": 12
+          }
+        },
+        "text": "**Targets:** Any 3 friendly, non-spirit undead minions within range \n\n**Effect:** All targets heal 1D6 Durability."
+      },
+      "Necromantic Power§Traitorous Strike": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ],
+          "Keywords": [
+            "Legacy"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 2
+          },
+          "Power Dice": {
+            "value": 5
+          },
+          "Range": {
+            "value": 18
+          }
+        },
+        "text": "**Targets:** One enemy undead within range that they can see \n\n**Effect:** If the necromancer has at least one success, the targeted model immediately moves up to 3\" and makes a single Offense attack against any other model of the necromancer's choice, as long as it is within range of the attacking model."
+      },
+      "Necromantic Power§True Death": {
+        "stats": {
+          "Cost": {
+            "value": 7
+          },
+          "Power Dice": {
+            "value": 5
+          },
+          "Range": {
+            "value": 12
+          }
+        },
+        "text": "**Targets:** One enemy undead within range \n\n**Effect:** If the Necromancer achieves at least 3 successes, and if the targeted undead is Rating 1 or 2, the target is destroyed and Removed from Play. If it is Rating 3 or greater, the target suffers 1D10 damage per success. Any Necromantic Minion destroyed in this way may not be set up again during this game for any reason."
+      },
+      "Necromantic Power§Whip of Darkness": {
+        "keywords": {
+          "Tags": [
+            "<=3"
+          ]
+        },
+        "stats": {
+          "Cost": {
+            "value": 2
+          },
+          "Power Dice": {
+            "value": 3
+          },
+          "Range": {
+            "value": 12
+          }
+        },
+        "text": "**Targets:** One enemy model within range \n\n**Effect:** The target suffers 1D6 damage per success. In addition, if the model suffers any damage from this power, the model is moved to within 1″ of the Necromancer. The Necromancer determines the position of the model at the end of this move. If this movement carries the model into dangerous terrain, it suffers any effects of that terrain as normal."
+      },
+      "Roster§Roster": {
+        "allowed": {
+          "classifications": [
+            "Minion"
+          ]
+        },
+        "aspects": {
+          "Label": "Horde"
+        },
+        "assets": {
+          "traits": [
+            "Necromancer§0"
+          ]
+        },
+        "rules": {
+          "Select your necromancer.": {
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Necromancer",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Play": {
+            "dynamic": true,
+            "ranks": {
+              "Skirmish": {
+                "order": 0
+              },
+              "Story": {
+                "order": 1,
+                "traits": [
+                  {
+                    "trait": "Lair§Lair"
+                  }
+                ]
+              }
+            },
+            "statType": "rank",
+            "value": "Skirmish",
+            "visibility": "hidden"
+          },
+          "Rating": {
+            "max": 7,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Special§Absorb Essence": {
+        "text": "Whenever damage from this model destroys an enemy, if a Necromancer within 3″ does not absorb the Necromantic Energy, then this model may Absorb Essence. If they do, increase their Offense by 1 for the remainder of the game."
+      },
+      "Special§Aging Vision": {
+        "text": "Whenever an enemy rolls a Critical Failure on an attack against this model, they suffer 3 damage."
+      },
+      "Special§Aura of Repair": {
+        "text": "Whenever the Necromancer activates, they may choose a single undead that they can see within 12″ and restore 1D3 Durability to that undead."
+      },
+      "Special§Black Bolt": {
+        "text": "Whenever this model deals damage to an enemy that is already wounded (below its maximum Durability), that enemy is Slowed until the end of the turn. A Slowed model has its movement reduced by 2."
+      },
+      "Special§Blood Drain": {
+        "text": "When attacking living foes, Vampires can drain their enemies of their very vitae, restoring their own life force. Whenever a Vampire scores a Critical Hit (rolling a 10 on the D10 to attack) against a foe of the Shambler, Feeder, or Hero type, they heal 3 Durability for each such dice rolled."
+      },
+      "Special§Blood Frenzy": {
+        "text": "If this model makes an attack and rolls at least 2 Critical Hits as part of that attack against a Hero, Shambler, or Feeder model, it may heal 1 Durability and its Offense increases by 1 for the remainder of the game."
+      },
+      "Special§Built to Perfection": {
+        "rules": {
+          "applyBuilt": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "stats",
+                    "Built",
+                    "visibility"
+                  ],
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "stats",
+                    "Built",
+                    "visibility"
+                  ]
+                ],
+                "value": "active"
+              },
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "stats",
+                    "Built",
+                    "dynamic"
+                  ],
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "stats",
+                    "Built",
+                    "dynamic"
+                  ]
+                ],
+                "value": true
+              },
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "constraints",
+                    "none"
+                  ],
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "constraints",
+                    "none"
+                  ]
+                ],
+                "value": "<=2"
+              },
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "constraints",
+                    "none"
+                  ],
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "constraints",
+                    "none"
+                  ]
+                ],
+                "value": "Spirit"
+              },
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "stats",
+                    "Durability",
+                    "value"
+                  ],
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "stats",
+                    "Durability",
+                    "value"
+                  ]
+                ],
+                "value": 2
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 9
+          }
+        },
+        "text": "The Monster Master may only recruit undead with a Rating of 3 or 4 that do not have the Spirit type. Whenever the Monster Master recruits an undead, they may choose a single stat for that undead and increase it by 1. In addition, they increase the Durability of any such undead recruited by 2."
+      },
+      "Special§Burning Hatred": {
+        "text": "Whenever this model attacks, it may reroll up to 3 dice that were rolled as part of its attack. If it is attacking a Hero, instead of rerolling, it may instead change the result of one dice to 10."
+      },
+      "Special§Constructed": {
+        "text": "Any time this model is affected by a Necromantic Power that causes any effect other than damage, its Resist increases by 2."
+      },
+      "Special§Continued Evolution": {
+        "text": "Whenever the Monster Master increases one of their own stats as part of the Post-Game Process, they may choose one of their undead and increase one stat for that undead by 1. No single stat for any undead may ever be increased by more than 1 through this process."
+      },
+      "Special§Crippling Strike": {
+        "text": "Whenever this model scores a Critical Hit, the damage for that roll is 3 instead of 2."
+      },
+      "Special§Cruel Blades": {
+        "text": "Whenever this model scores a Critical Hit against an enemy, that enemy suffers an additional 2 damage (3 total), instead of 1 additional damage."
+      },
+      "Special§Cursed Touch": {
+        "text": "Whenever this model rolls one or more Critical Hits on an attack, the target gains the Cursed condition for the rest of the game. A Cursed model suffers 1 damage whenever it activates."
+      },
+      "Special§Deadly Duelist": {
+        "text": "When this model deals damage as part of an Offense attack, the target is also Weakened until the end of the turn. If that enemy dies or is destroyed while it is Weakened, the Death Knight heals 3 Durability."
+      },
+      "Special§Death Scream": {
+        "text": "When this model is destroyed, before it is Removed from Play, it may make a single attack, which may target Resist instead of Defense, against all enemies within 3″ of itself."
+      },
+      "Special§Discorporate": {
+        "text": "The first time in a turn that the Vampire suffers a Critical Hit as part of an Offense attack, after that damage is resolved, the Vampire becomes a cloud of bats, mist, or similar. The Vampire may immediately move. Until the end of that turn, the Vampire cannot be the target of Offense attacks."
+      },
+      "Special§Drain Energy": {
+        "text": "Whenever this model rolls one or more Critical Hits on an attack, the target gains the Weakened (see page 49) condition until the end of the turn."
+      },
+      "Special§Dread Master": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "stats",
+                    "Rating",
+                    "max"
+                  ]
+                ],
+                "value": 4
+              },
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "constraints",
+                    "any"
+                  ],
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "constraints",
+                    "any"
+                  ]
+                ],
+                "value": "<=2"
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "text": "Increase the maximum Rating of undead you may bring to any Scenario by 4 (i.e., increase the maximum allowed total Rating of undead from 15 to 19). However, the Dread Horde Master is prohibited from starting with, or ever recruiting, any undead with a Rating greater than 2. This rule does not alter the number of undead that the Dread Horde Master can recruit upon creation. In addition, whenever one of your Necromantic Minions attacks an enemy within 1″ of a different friendly Necromantic Minion, their Offense is increased by 1 for that attack."
+      },
+      "Special§Enraged Monstrosity": {
+        "text": "When this model is at Durability 12 or less, its Offense increases to 10."
+      },
+      "Special§Eternal Servant": {
+        "text": "If a Necromancer is attacked and a Wight is within 1″ of the Necromancer, you may roll 1D10. On a 6+, that attack is directed to the Wight instead. This roll is made before any attack dice are rolled."
+      },
+      "Special§Ethereal": {
+        "text": "Ethereal minions may pass through other models when moving, as well as pass through impassable terrain, walls, and other blocking elements of scenery. The models must come to rest on open ground as per Ending a Move, page 44. \n\nEthereal models do not suffer effects from moving onto, over, or stopping on terrain. Ethereal models ignore such effects, such as the effects of Swamps or Pools."
+      },
+      "Special§Feasting Rejuvenation": {
+        "rules": {
+          "putXInName": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "designation"
+                  ]
+                ],
+                "prepend": " ",
+                "value": [
+                  "{self}",
+                  "stats",
+                  "x",
+                  "processed",
+                  "format",
+                  "current"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "x",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "x": {
+            "statType": "numeric",
+            "text": "If this model kills a Hero, Feeder, or Shambler, it may immediately heal {v}D6 Durability.",
+            "value": 1,
+            "visibility": "hidden"
+          }
+        },
+        "text": ""
+      },
+      "Special§Keening Wail": {
+        "text": "When this model attacks, they may choose to target enemy Resist instead of Defense when making an attack. In addition, the Banshee may choose to attack all enemies within 3″ of itself (rolling for each enemy)."
+      },
+      "Special§Lost in Shadows": {
+        "text": "If this model is completely on a terrain feature, no other model may draw line of sight to it as long as they are more than 3″ away."
+      },
+      "Special§Necromantic Power": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "allowed",
+                    "classifications"
+                  ]
+                ],
+                "value": "Necromantic Power"
+              },
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "constraints",
+                    "any"
+                  ]
+                ],
+                "value": "<=3"
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 10
+          },
+          "Only one power is allowed.": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 2,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{parent}",
+                    "tally",
+                    "Necromantic Power"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "text": "When this model is added to your roster, you may select one Necromantic Power with a Necromantic Energy cost of 3 or less. The Death Knight may use that Necromantic Power when it activates instead of its normal attacks, but each time it does so during a game beyond the first time, it suffers 1 point of damage. This damage is suffered after all effects of the Necromantic Power have been resolved."
+      },
+      "Special§Nothing but Bones": {
+        "text": "Skeletons are particularly difficult to permanently damage. Whenever this model suffers damage from an Offense attack, reduce that damage by 1."
+      },
+      "Special§Preternatural Speed": {
+        "text": "Vampires can move with incredible alacrity when challenged. A Vampire can move twice on its turn, in addition to taking a normal action. It may use these moves before or after it uses its action, or split them before and after its action."
+      },
+      "Special§Quest for Vengeance": {
+        "text": "When this model makes an attack roll against a Hero, its Offense increases by 1 and it may reroll 1 dice from its attack roll."
+      },
+      "Special§Reaper of Flesh": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "Offense",
+                    "value"
+                  ],
+                  [
+                    "{parent}",
+                    "stats",
+                    "Defense",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 10
+          }
+        },
+        "text": "Increase the Offense and Defense of your Necromancer by 1. Whenever your Necromancer destroys an enemy within 1″, they gain 1 Necromantic Energy (this is in addition to the normal energy gained)."
+      },
+      "Special§Rotting End": {
+        "text": "Whenever this model is reduced to 0 Durability, if the damage that reduced its Durability to 0 did not include at least 1 Critical Hit, then this model is reduced to 1 Durability and all further damage from that attack is ignored."
+      },
+      "Special§Rotting Stench": {
+        "text": "Any Heroes that activate within 1″ of this model have their Offense reduced by 2 for that activation."
+      },
+      "Special§Scampering Claws": {
+        "text": "This model may climb without spending any additional movement."
+      },
+      "Special§Soul Herder": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "constraints",
+                    "any"
+                  ],
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "constraints",
+                    "any"
+                  ]
+                ],
+                "value": "Spirit"
+              },
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "stats",
+                    "Movement",
+                    "value"
+                  ],
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "stats",
+                    "Movement",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 10
+          }
+        },
+        "text": "The Spirit Caller may only recruit undead of the Spirit type. Increase the movement stat of all undead recruited by the Spirit Caller by 1."
+      },
+      "Special§Swallow Whole": {
+        "text": "Whenever this model makes an attack, and at least 2 of the dice for that attack are a Critical Hit, if the target of the attack is Rating 1 or 2, then the target is immediately destroyed and Removed from Play. If the target is Rating 3 or higher, then the attack deals an extra 4 damage."
+      },
+      "Special§Sweeping Strikes": {
+        "text": "Whenever this model attacks, all other models (friend or foe) within 3″ of the target also suffer ½ the damage (rounding down) suffered by the target of the attack."
+      },
+      "Special§Too Driven to Die": {
+        "text": "When this model is reduced to 0 Durability, if it was not reduced to 0 by a Necromantic Power, it is instead reduced to 1 Durability and all further damage from that attack is ignored. This model may use this ability no more than 3 times in any game."
+      },
+      "Special§Unraveled Flight": {
+        "text": "Once per game, the Mummy may teleport instead of moving during its turn. If it does, remove it from the battlefield and set it up again anywhere within line of sight that is more than 1″ from all other models."
+      },
+      "Special§Unstoppable Brute": {
+        "text": "When this model moves, it may ignore intervening models, but it may not finish its move on any other model."
+      }
+    },
+    "gameModes": {},
+    "theme": {}
+  }
+}
