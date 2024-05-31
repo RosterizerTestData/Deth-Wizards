@@ -1,6 +1,6 @@
 {
   "name": "Deth Wizards",
-  "revision": "0.0.2",
+  "revision": "0.0.3",
   "game": "Deth Wizards",
   "genre": "fantasy",
   "publisher": "Snarling Badger Studios",
@@ -1474,7 +1474,7 @@
             "statType": "numeric",
             "tracked": true,
             "value": 0,
-            "visibility": "normal"
+            "visibility": "hidden"
           },
           "XP": {
             "dynamic": true,
@@ -1487,7 +1487,7 @@
             "statType": "numeric",
             "tracked": true,
             "value": 0,
-            "visibility": "normal"
+            "visibility": "hidden"
           }
         }
       },
@@ -1526,6 +1526,7 @@
           }
         }
       },
+      "Restoration": {},
       "Reward": {},
       "Risen Hero": {
         "rules": {
@@ -3892,6 +3893,138 @@
         },
         "text": "**Targets:** One enemy model within range \n\n**Effect:** The target suffers 1D6 damage per success. In addition, if the model suffers any damage from this power, the model is moved to within 1″ of the Necromancer. The Necromancer determines the position of the model at the end of this move. If this movement carries the model into dangerous terrain, it suffers any effects of that terrain as normal."
       },
+      "Restoration§Degraded": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": -1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Stat",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Stat": {
+            "dynamic": true,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              },
+              "Durability": {
+                "order": 5
+              }
+            },
+            "statType": "rank",
+            "value": "-",
+            "visibility": "normal"
+          }
+        }
+      },
+      "Restoration§Upgraded": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Stat",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Stat": {
+            "dynamic": true,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              },
+              "Durability": {
+                "order": 5
+              }
+            },
+            "statType": "rank",
+            "value": "-",
+            "visibility": "normal"
+          }
+        }
+      },
       "Reward§Ancient Beast": {
         "rules": {
           "applyStat": {
@@ -5006,6 +5139,32 @@
                   ]
                 ],
                 "value": "Risen Hero"
+              },
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classIdentity",
+                    "Model",
+                    "allowed",
+                    "classifications"
+                  ],
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "assets",
+                    "classIdentity",
+                    "Model",
+                    "allowed",
+                    "classifications"
+                  ]
+                ],
+                "value": "Restoration"
               }
             ],
             "evals": [
@@ -5045,7 +5204,7 @@
             "visibility": "active"
           },
           "Rating": {
-            "max": 7,
+            "max": 15,
             "statType": "numeric",
             "tracked": true,
             "value": 0,
