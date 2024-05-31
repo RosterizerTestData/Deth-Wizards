@@ -1,6 +1,6 @@
 {
   "name": "Deth Wizards",
-  "revision": "0.0.1",
+  "revision": "0.0.2",
   "game": "Deth Wizards",
   "genre": "fantasy",
   "publisher": "Snarling Badger Studios",
@@ -9,8 +9,250 @@
   "wip": false,
   "rulebook": {
     "assetTaxonomy": {
-      "Lair": {},
+      "Advancement": {
+        "aspects": {
+          "Lock Qty": true,
+          "Unique": true
+        },
+        "stats": {
+          "Cost": {
+            "group": "Cost",
+            "groupOrder": -1,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Impedimenta": {
+        "aspects": {
+          "Lock Qty": true,
+          "Unique": true
+        }
+      },
+      "Lair": {
+        "allowed": {
+          "classifications": [
+            "Impedimenta",
+            "Minion",
+            "Reward"
+          ]
+        },
+        "aspects": {
+          "Group Includes": true,
+          "Group Traits": true
+        },
+        "rules": {
+          "hideMinions": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "aspects",
+                    "Visibility"
+                  ],
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "assets",
+                    "classification",
+                    "Special",
+                    "aspects",
+                    "Visibility"
+                  ],
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "assets",
+                    "classification",
+                    "Necromantic Power",
+                    "aspects",
+                    "Visibility"
+                  ]
+                ],
+                "value": "active"
+              },
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "tracked",
+                    "Rating"
+                  ]
+                ],
+                "value": 0
+              },
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "aspects",
+                    "Type"
+                  ]
+                ],
+                "value": "conceptual"
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 555
+          },
+          "Select your Lair type.": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "item"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Type",
+                  "processed",
+                  "term",
+                  "current"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Type",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error",
+            "order": 100
+          },
+          "setRating": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Rating",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{this}",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "SUM",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tracked",
+                    "Rating"
+                  ],
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Minion",
+                    "stats",
+                    "Rating",
+                    "processed",
+                    "numeric",
+                    "current"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 999
+          }
+        },
+        "stats": {
+          "Defense": {
+            "statType": "numeric",
+            "value": 0
+          },
+          "Impedimenta": {
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "Rating": {
+            "statType": "numeric",
+            "value": 0
+          },
+          "Type": {
+            "dynamic": true,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Cave": {
+                "order": 1,
+                "term": "Lair§Cave"
+              },
+              "Hovel": {
+                "order": 2,
+                "term": "Lair§Hovel"
+              },
+              "Sewers": {
+                "order": 3,
+                "term": "Lair§Sewers"
+              }
+            },
+            "statType": "rank",
+            "value": "-",
+            "visibility": "normal"
+          }
+        }
+      },
       "Minion": {
+        "templateClass": "Model"
+      },
+      "Model": {
         "aspects": {
           "Describe": true,
           "Rename": true,
@@ -24,6 +266,84 @@
           "ttsStatDisplay": "Rating,Movement,Offense,Rng,Defense,Resist,Durability"
         },
         "rules": {
+          "applyAncientBeast": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Beast",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 11
+          },
+          "applyBeastAdv": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    [
+                      "Movement",
+                      "Offense",
+                      "Defense",
+                      "Resist",
+                      "Durability"
+                    ],
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Beast (adv)",
+                    "value"
+                  ]
+                ],
+                "value": "✓"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 11
+          },
           "applyBuilt": {
             "actions": [
               {
@@ -95,9 +415,347 @@
             "evaluate": "AND",
             "failState": "pass",
             "order": 10
+          },
+          "applyGraft": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Graft",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 11
+          },
+          "applyRattle": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Defense",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Rattle",
+                    "value"
+                  ]
+                ],
+                "value": "✓"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 11
+          },
+          "applySpiritHall": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Resist",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Spirit Hall",
+                    "value"
+                  ]
+                ],
+                "value": "✓"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 11
+          },
+          "unhideBeast": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Beast",
+                    "visibility"
+                  ]
+                ],
+                "value": "active"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Ancient Beast"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "unhideBeastAdv": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Beast (adv)",
+                    "visibility"
+                  ]
+                ],
+                "value": "active"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Ancient Beast (adv)"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "unhideGraft": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Graft",
+                    "visibility"
+                  ]
+                ],
+                "value": "active"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Grafting Specialist"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "unhideRattle": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Rattle",
+                    "visibility"
+                  ]
+                ],
+                "value": "active"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Death Rattle"
+                  ]
+                ]
+              },
+              {
+                "actionable": true,
+                "contains": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "keywords",
+                    "Type"
+                  ]
+                ],
+                "value": "Rattler"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          },
+          "unhideSpiritHall": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Spirit Hall",
+                    "visibility"
+                  ]
+                ],
+                "value": "active"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Spirit Hall"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
           }
         },
         "stats": {
+          "Beast": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              },
+              "Durability": {
+                "order": 5
+              }
+            },
+            "statOrder": 4,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "hidden"
+          },
+          "Beast (adv)": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "✓": {
+                "order": 1
+              }
+            },
+            "statOrder": 3,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "hidden"
+          },
           "Built": {
             "dynamic": true,
             "group": "Config",
@@ -172,6 +830,29 @@
             "value": "-",
             "visibility": "hidden"
           },
+          "Graft": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Resist": {
+                "order": 2
+              },
+              "Durability": {
+                "order": 3
+              }
+            },
+            "statOrder": 4,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "hidden"
+          },
           "Movement": {
             "format": "{v}″",
             "group": "Stats",
@@ -197,6 +878,23 @@
             "value": null,
             "visibility": "always"
           },
+          "Rattle": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "✓": {
+                "order": 1
+              }
+            },
+            "statOrder": 3,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "hidden"
+          },
           "Resist": {
             "group": "Stats",
             "groupOrder": 1,
@@ -213,6 +911,23 @@
             "statType": "numeric",
             "value": null,
             "visibility": "normal"
+          },
+          "Spirit Hall": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "✓": {
+                "order": 1
+              }
+            },
+            "statOrder": 3,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "hidden"
           }
         }
       },
@@ -482,6 +1197,54 @@
             ],
             "evaluate": "AND",
             "failState": "error"
+          },
+          "trackXp": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Unspent",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{this}",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "equation": {
+                  "operator": "T-O",
+                  "value": [
+                    "{self}",
+                    "tracked",
+                    "Cost"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "XP",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
           }
         },
         "stats": {
@@ -702,13 +1465,37 @@
             "statType": "numeric",
             "value": null,
             "visibility": "normal"
+          },
+          "Unspent": {
+            "group": "Story",
+            "groupOrder": 3,
+            "min": 0,
+            "statOrder": 2,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
+          },
+          "XP": {
+            "dynamic": true,
+            "group": "Story",
+            "groupOrder": 3,
+            "increment": {
+              "value": 1
+            },
+            "statOrder": 1,
+            "statType": "numeric",
+            "tracked": true,
+            "value": 0,
+            "visibility": "normal"
           }
         }
       },
       "Necromantic Power": {
         "aspects": {
           "Lock Qty": true,
-          "Unique": true
+          "Unique": true,
+          "Visibility": "active"
         },
         "keywords": {
           "Keywords": [],
@@ -739,10 +1526,1100 @@
           }
         }
       },
+      "Reward": {},
+      "Risen Hero": {
+        "rules": {
+          "applyStats": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    [
+                      "Offense",
+                      "Defense",
+                      "Resist"
+                    ],
+                    "value"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Durability",
+                    "value"
+                  ]
+                ],
+                "value": [
+                  "{this}",
+                  "evals",
+                  "0",
+                  "result",
+                  "integer"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "equation": {
+                  "operator": "T*O",
+                  "value": [
+                    "{self}",
+                    "stats",
+                    "Dx",
+                    "processed",
+                    "numeric",
+                    "current"
+                  ]
+                },
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Rating",
+                    "processed",
+                    "numeric",
+                    "current"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 5
+          },
+          "Select this Hero's undead type.": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "keywords",
+                    "Type"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Type",
+                  "value"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Type",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "warning"
+          }
+        },
+        "stats": {
+          "Dx": {
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "hidden"
+          },
+          "Rating": {
+            "dynamic": true
+          },
+          "Type": {
+            "dynamic": true,
+            "group": "Config",
+            "groupOrder": 2,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Rattler": {
+                "order": 1
+              },
+              "Shambler": {
+                "order": 2
+              },
+              "Feeder": {
+                "order": 3
+              },
+              "Spirit": {
+                "order": 4
+              }
+            },
+            "statOrder": 0,
+            "statType": "rank",
+            "value": "-",
+            "visibility": "active"
+          }
+        },
+        "templateClass": "Model"
+      },
       "Special": {}
     },
     "assetCatalog": {
-      "Lair§Lair": {},
+      "Advancement§Additional Necromantic Power": {
+        "aspects": {
+          "Unique": false
+        },
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Energy",
+                    "value"
+                  ],
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Necromantic Power",
+                    "max"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 20
+          }
+        },
+        "stats": {
+          "Cost": {
+            "value": 3
+          }
+        },
+        "text": "When you select this advancement, your Necromancer may select one\nadditional Necromantic Power from the Necromantic Powers list (see page\n31). Your Necromancer now knows this power and may utilize it during\nscenarios. In addition, when you select this advancement, your total\nNecromantic Energy increases by 1."
+      },
+      "Advancement§Aura of Weakness": {
+        "stats": {
+          "Cost": {
+            "value": 7
+          }
+        },
+        "text": "All enemy models within 3” of your Necromancer reduce their\nOffense by 1."
+      },
+      "Advancement§Bane of the Faithful": {
+        "aspects": {
+          "Unique": false
+        },
+        "rules": {
+          "This ability may only be selected twice.": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 2,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Bane of the Faithful"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Cost": {
+            "value": 8
+          }
+        },
+        "text": "Whenever you utilize a Necromantic Power against a Hero in a\nStory scenario, that Hero’s Resist is reduced by 1 against the effects of that\nNecromantic Power (i.e., when you roll your power dice against their Resist\nfor that power).\n\n**Special:** You may select this ability twice"
+      },
+      "Advancement§Blood Gorger": {
+        "stats": {
+          "Cost": {
+            "value": 6
+          }
+        },
+        "text": "Any time your Necromancer destroys a Feeder, Shambler, or Hero\nwith an Offense attack, they regain 1 Necromantic Energy. They also increase\ntheir maximum Necromantic Energy by 1 until the end of the current turn."
+      },
+      "Advancement§Body of Bugs": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          }
+        },
+        "text": "You may move through other models and terrain freely as per a\nmodel that can fly (your model must still end movement in a legal position).\nIn addition, any model you successfully damage with an Offense attack is\nCursed, in addition to any other effects of that attack."
+      },
+      "Advancement§Born to Die": {
+        "stats": {
+          "Cost": {
+            "value": 5
+          }
+        },
+        "text": "Whenever one of your Necromantic Minions are destroyed, all\nother friendly Necromantic Minions within 6” of the destroyed model are\nhealed 1 Durability before the model is Removed from Play."
+      },
+      "Advancement§Death Crafter": {
+        "stats": {
+          "Cost": {
+            "value": 6
+          }
+        },
+        "text": "Whenever you attempt to Raise New Undead (see page 91), you\ngain a +1 bonus to the roll."
+      },
+      "Advancement§Death Rattle": {
+        "stats": {
+          "Cost": {
+            "value": 8
+          }
+        },
+        "text": "Increase the Defense of any Rattler type Necromantic Minions you\ncreate after you gain this ability by 1."
+      },
+      "Advancement§Destructive Power": {
+        "stats": {
+          "Cost": {
+            "value": 7
+          }
+        },
+        "text": "Whenever you roll power dice against the target of a Necromantic\nPower, that target suffers 1 damage for each unmodified 10 you roll on the\npower dice. This damage is suffered after all other effects of the power have\nbeen resolved."
+      },
+      "Advancement§Energy Push": {
+        "stats": {
+          "Cost": {
+            "value": 3
+          }
+        },
+        "text": "Whenever you utilize a Necromantic Power that targets only a\nsingle model, you may expend 1 additional Necromantic Energy to increase\nthe range of the power by 3”."
+      },
+      "Advancement§Entropic Power": {
+        "stats": {
+          "Cost": {
+            "value": 8
+          }
+        },
+        "text": "Whenever one or more enemies suffer 1 or more damage from\none of your Necromantic Powers, you may select a single enemy that was\ndamaged by that Necromantic Power and reduce their Defense by 1 for the\nremainder of the game."
+      },
+      "Advancement§Expert Stitcher": {
+        "stats": {
+          "Cost": {
+            "value": 3
+          }
+        },
+        "text": "When you are rolling to Restore Minions (see page 91), you gain a\n+1 bonus to the D10 roll."
+      },
+      "Advancement§Extra Meat": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          }
+        },
+        "text": "At the start of each turn, all of your Shambler type Necromantic\nMinions heal 1 Durability."
+      },
+      "Advancement§Grafting Specialist": {
+        "stats": {
+          "Cost": {
+            "value": 7
+          }
+        },
+        "text": "Whenever you raise a new undead, you may choose a single stat\nfrom Movement, Durability, or Resist; that stat is increased by 1."
+      },
+      "Advancement§Improve Stat": {
+        "aspects": {
+          "Unique": false
+        },
+        "rules": {
+          "Select your stat to improve.": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "traits",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Stat",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "warning"
+          }
+        },
+        "stats": {
+          "Cost": {
+            "value": 4
+          },
+          "Stat": {
+            "dynamic": true,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              }
+            },
+            "statType": "rank",
+            "value": "-",
+            "visibility": "normal"
+          }
+        }
+      },
+      "Advancement§Magic in the Blood": {
+        "rules": {
+          "This ability may only be selected twice.": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 2,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Magic in the Blood"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Cost": {
+            "value": 3
+          }
+        },
+        "text": "Whenever one of your Feeder type Necromantic Minions restores\nDurability from one of its Special Abilities, it regains 1 additional Durability.\nSpecial: You may select this ability twice."
+      },
+      "Advancement§Necrogenesis": {
+        "rules": {
+          "This ability may only be selected three times.": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 3,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Magic in the Blood"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Cost": {
+            "value": 6
+          }
+        },
+        "text": "At the start of each turn, you regain 1 additional Necromantic\nEnergy (this is in addition to the normal 3) for each time you have selected\nthis ability.\nSpecial: You may select this ability up to 3 times."
+      },
+      "Advancement§Pack Killers": {
+        "stats": {
+          "Cost": {
+            "value": 9
+          }
+        },
+        "text": "Your Necromantic Minions that are Rating 1 or 2 increase their\nOffense by 1 whenever there are two or more other Necromantic Minions\nof Rating 1 or 2 within 3”."
+      },
+      "Advancement§Power of Unlife": {
+        "stats": {
+          "Cost": {
+            "value": 8
+          }
+        },
+        "text": "Whenever you utilize a Necromantic Power, all friendly Necromantic\nMinions within 3” heal 1 Durability."
+      },
+      "Advancement§Solo Specialists": {
+        "stats": {
+          "Cost": {
+            "value": 5
+          }
+        },
+        "text": "Your Necromantic Minions that are Rating 3 or 4 increase their\nResist by 2 whenever no other Necromantic Minion or the Necromancer is\nwithin 3”."
+      },
+      "Advancement§Speed of the Fell Wind": {
+        "stats": {
+          "Cost": {
+            "value": 10
+          }
+        },
+        "text": "Once per turn, when you activate your Necromancer, your\nNecromancer may move for free. This is in addition to the normal move\nallowed when the Necromancer activates."
+      },
+      "Advancement§Spirit of Alacrity": {
+        "stats": {
+          "Cost": {
+            "value": 4
+          }
+        },
+        "text": "Whenever a Necromantic Minion of the Spirit type activates\nwithin 6” of your Necromancer, its Movement stat is increased by 1 for that\nactivation."
+      },
+      "Advancement§Talons of Darkness": {
+        "stats": {
+          "Cost": {
+            "value": 2
+          }
+        },
+        "text": "Whenever you roll a Critical Hit as part of an Offense attack, you\ndeal 1 additional damage."
+      },
+      "Impedimenta§Alchemy Lab": {
+        "aspects": {
+          "Unique": false
+        },
+        "rules": {
+          "Select no more than one potion of each type.": {
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Potion",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              },
+              {
+                "actionable": true,
+                "max": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{parent}",
+                    "tracked",
+                    "Alacrity"
+                  ]
+                ]
+              },
+              {
+                "actionable": true,
+                "max": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{parent}",
+                    "tracked",
+                    "Steel"
+                  ]
+                ]
+              },
+              {
+                "actionable": true,
+                "max": 1,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{parent}",
+                    "tracked",
+                    "Fortitude"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          },
+          "You may only have three of this Impedimenta.": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 3,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Alchemy Lab"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "stats": {
+          "Potion": {
+            "ranks": {
+              "-": {
+                "order": 0,
+                "tracking": {}
+              },
+              "Alacrity": {
+                "number": 1,
+                "order": 1,
+                "tracking": {}
+              },
+              "Steel": {
+                "number": 1,
+                "order": 2,
+                "tracking": {}
+              },
+              "Fortitude": {
+                "number": 1,
+                "order": 3
+              }
+            },
+            "statType": "rank",
+            "tracked": true,
+            "value": "-",
+            "visibility": "normal"
+          }
+        },
+        "text": "Each time you select this Impedimenta, you may select a potion\nfrom the following list: Alacrity, Steel, or Fortitude. This is the potion your\nAlchemy Lab is capable of producing. The potions have the effects listed\nbelow. Once per game, at the beginning of any turn, you may choose to\nhave your Necromancer or any Necromantic Minion within 3” of your\nNecromancer consume the potion. If they do so, they gain the bonuses\nlisted until the end of that current turn.\n* Alacrity: +3 Movement\n* Steel: +2 Defense\n* Fortitude: +2 Resist"
+      },
+      "Impedimenta§Armory": {
+        "text": "At the start of each game, you\nmay choose a single Necromantic Minion and increase its Defense by 1. If\nyour Lair is Advanced, you may select 2 different minions at the start of the\ngame to receive this benefit instead of one. This benefit lasts until the end\nof that game."
+      },
+      "Impedimenta§Crypt": {
+        "aspects": {
+          "Unique": false
+        },
+        "rules": {
+          "You may only have three of this Impedimenta.": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 3,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Crypt"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "text": "Whenever you are rolling to Restore Minions during the Post-Game\nProcess (see page 91), you may add +1 to a single roll for one Necromantic\nMinion."
+      },
+      "Impedimenta§Crystal Caverns": {
+        "text": "Once during each game,\nwhen your Necromancer activates, you may choose to regain 3 Necromantic\nEnergy. This cannot increase your Necromantic Energy over your maximum.\nIf your Lair is Advanced, the crystal restores 4 Necromantic Energy instead."
+      },
+      "Impedimenta§Fungal Garden": {
+        "text": "At the start of each game,\nyou may choose a single Necromantic Minion. That minion increases their\nOffense by 1 for that game. If your Lair is Advanced, you may select 2\ndifferent minions at the start of the game to receive this benefit instead of\none."
+      },
+      "Impedimenta§Library": {
+        "rules": {
+          "Enter the count of Necromantic Powers learned, via Experience, prior to this Impedimenta.": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "tracked",
+                    "Cost"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Prior Power Count",
+                  "processed",
+                  "numeric",
+                  "current"
+                ]
+              },
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "included",
+                    "item",
+                    "Advancement§Additional Necromantic Power",
+                    "stats",
+                    "Cost",
+                    "value"
+                  ]
+                ],
+                "value": -1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 193
+          }
+        },
+        "stats": {
+          "Prior Power Count": {
+            "dynamic": true,
+            "increment": {
+              "value": 1
+            },
+            "min": 0,
+            "statType": "numeric",
+            "value": 0,
+            "visibility": "normal"
+          }
+        },
+        "text": "Reduce the amount of experience you must spend to learn a new\nNecromantic Power by 1.\n\n*(Rosterizer doesn't track rosters sequentially, so you must provide the prior count here for bookkeeping to be accurate)*"
+      },
+      "Impedimenta§Observatory": {
+        "text": "Once per game, you may\ncall upon your Portent. When you do so, you may reroll any one set of\ndice that has been rolled for your Necromancer or one of your Necromantic\nMinions. This could be all the dice for an Offense attack, the power dice for\na Necromantic Power, and so on. When this benefit is used, all dice from\nthat roll must be rerolled. If your Lair is Advanced, you may call upon your\nPortent twice per game."
+      },
+      "Impedimenta§Prison": {
+        "text": "Whenever you attempt to create an undead during the Post-Game Process (see page 91), if your Necromancer is trying to create an\nundead minion from a Hero, you gain a +1 bonus to that roll. If your Lair is\nAdvanced, this bonus for creating an undead minion from a Hero increases\nto +2."
+      },
+      "Impedimenta§Research Laboratory": {
+        "text": "Whenever you attempt to create an undead during the Post-Game\nProcess (see page 91), if you do not already have any of that specific undead\nin your Horde (for example, you are attempting to create a Flesh Golem and\nyou do not currently have a Flesh Golem in your Horde), then you gain a +1\nbonus to the roll to raise that undead."
+      },
+      "Impedimenta§Scrying Pool": {
+        "text": "Whenever you are starting a Story Play scenario, if you are required\nto roll randomly for a number of Heroes, you may make one such roll twice\nand select the lower result."
+      },
+      "Impedimenta§Shrine": {
+        "text": "Your Necromancer starts each game with 2 additional Necromantic\nEnergy. This does not increase your stat, and once these extra two\nNecromantic Energy are spent, they cannot be recovered (e.g., if your\nnormal maximum Necromantic Energy is 13, you start the game with 15,\nbut once you spend that energy, your maximum remains 13). If your Lair is\nAdvanced, your Necromancer starts the game with 3 additional Necromantic\nEnergy instead of 2."
+      },
+      "Impedimenta§Spirit Hall": {
+        "text": "Whenever you create a new Necromantic Minion during Raise\nNew Undead (see page 91), after you have this Impedimenta as part of your\nLair, you may increase that Necromantic Minion’s Resist by 1."
+      },
+      "Impedimenta§Statue Guardians": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "Defense",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 110
+          },
+          "applyAdvanced": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "Defense",
+                    "value"
+                  ]
+                ],
+                "value": 2
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "contains": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{parent}",
+                    "keywords",
+                    "Tags"
+                  ]
+                ],
+                "value": "Advanced"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 121
+          }
+        },
+        "text": "The Defense of your Lair increases by 1. If your Lair is Advanced,\nit increases by 3."
+      },
+      "Impedimenta§Traps": {
+        "aspects": {
+          "Unique": false
+        },
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "stats",
+                    "Defense",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 120
+          },
+          "You may only have three of this Impedimenta": {
+            "evals": [
+              {
+                "actionable": true,
+                "max": 3,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{roster}",
+                    "tally",
+                    "Traps"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "error"
+          }
+        },
+        "text": "The Defense of your Lair increases by 1."
+      },
+      "Lair§Cave": {
+        "assets": {
+          "traits": [
+            "Special§Out of the Way"
+          ]
+        },
+        "rules": {
+          "becomeDungeon": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "item"
+                  ]
+                ],
+                "value": "Lair§Dungeon"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 4,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Impedimenta",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 101
+          }
+        },
+        "stats": {
+          "Defense": {
+            "value": 2
+          },
+          "Impedimenta": {
+            "max": 10
+          },
+          "Rating": {
+            "max": 28,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Lair§Dungeon": {
+        "assets": {
+          "traits": [
+            "Special§Out of the Way"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Advanced"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 4
+          },
+          "Impedimenta": {
+            "max": 10
+          },
+          "Rating": {
+            "max": 28,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Lair§Hovel": {
+        "assets": {
+          "traits": [
+            "Special§Previous Residents, Fresh Bodies"
+          ]
+        },
+        "rules": {
+          "becomeTower": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "item"
+                  ]
+                ],
+                "value": "Lair§Tower"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 3,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Impedimenta",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 101
+          }
+        },
+        "stats": {
+          "Defense": {
+            "value": 4
+          },
+          "Impedimenta": {
+            "max": 6
+          },
+          "Rating": {
+            "max": 20,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Lair§Labyrinth": {
+        "assets": {
+          "traits": [
+            "Special§Easy Access"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Advanced"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 6
+          },
+          "Impedimenta": {
+            "max": 8
+          },
+          "Rating": {
+            "max": 25,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Lair§Lair": {
+        "stats": {
+          "Defense": {}
+        }
+      },
+      "Lair§Sewers": {
+        "assets": {
+          "traits": [
+            "Special§Easy Access"
+          ]
+        },
+        "rules": {
+          "becomeLabyrinth": {
+            "actions": [
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "item"
+                  ]
+                ],
+                "value": "Lair§Labyrinth"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "min": 4,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Impedimenta",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 101
+          }
+        },
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Impedimenta": {
+            "max": 8
+          },
+          "Rating": {
+            "max": 25,
+            "visibility": "normal"
+          }
+        }
+      },
+      "Lair§Tower": {
+        "assets": {
+          "traits": [
+            "Special§Previous Residents, Fresh Bodies"
+          ]
+        },
+        "keywords": {
+          "Tags": [
+            "Advanced"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 8
+          },
+          "Impedimenta": {
+            "max": 6
+          },
+          "Rating": {
+            "max": 20,
+            "visibility": "normal"
+          }
+        }
+      },
       "Minion§Banshee": {
         "assets": {
           "traits": [
@@ -2015,6 +3892,1019 @@
         },
         "text": "**Targets:** One enemy model within range \n\n**Effect:** The target suffers 1D6 damage per success. In addition, if the model suffers any damage from this power, the model is moved to within 1″ of the Necromancer. The Necromancer determines the position of the model at the end of this move. If this movement carries the model into dangerous terrain, it suffers any effects of that terrain as normal."
       },
+      "Reward§Ancient Beast": {
+        "rules": {
+          "applyStat": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Stat",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Stat": {
+            "dynamic": true,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              }
+            },
+            "statType": "rank",
+            "value": "-",
+            "visibility": "normal"
+          }
+        },
+        "text": "If the Necromancer successfully creates this undead, the\nNecromancer may improve any one stat of that Necromantic\nMinion by 1. Alternatively, your Necromancer may choose to\nimprove their Movement, Offense, Defense, or Resist by 1\nand gain 1 additional experience."
+      },
+      "Reward§Ancient Beast (adv)": {
+        "rules": {
+          "applyStat": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "{0string}",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [
+              {
+                "actionable": false,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Stat",
+                    "value"
+                  ]
+                ]
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "stats": {
+          "Stat": {
+            "dynamic": true,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Movement": {
+                "order": 1
+              },
+              "Offense": {
+                "order": 2
+              },
+              "Defense": {
+                "order": 3
+              },
+              "Resist": {
+                "order": 4
+              }
+            },
+            "statType": "rank",
+            "value": "-",
+            "visibility": "normal"
+          }
+        },
+        "text": "All stats of the Rating 4 Necromantic Minion\nare increased by 1 if the Raise New Undead was\nsuccessful. Alternatively, your Necromancer may choose to\nimprove their Movement, Offense, Defense, or Resist by 1\nand gain 1 additional experience."
+      },
+      "Reward§Arcane Spoils": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Necromantic Power",
+                    "max"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 20
+          }
+        }
+      },
+      "Reward§Arcane Spoils (adv)": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Energy",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Necromantic Power",
+                    "max"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 20
+          }
+        }
+      },
+      "Reward§Artifact of Power": {
+        "rules": {
+          "Select a skill to grant to your Necromancer.": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "traits"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Special",
+                  "processed",
+                  "term",
+                  "current"
+                ]
+              },
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "tracked",
+                    "Cost"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Special",
+                  "processed",
+                  "numeric",
+                  "current"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Special",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "warning",
+            "order": 20
+          }
+        },
+        "stats": {
+          "Special": {
+            "dynamic": true,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Blood Gorger": {
+                "number": -6,
+                "order": 1,
+                "term": "Special§Blood Gorger"
+              },
+              "Body of Bugs": {
+                "number": -4,
+                "order": 2,
+                "term": "Special§Body of Bugs"
+              },
+              "Born to Die": {
+                "number": -5,
+                "order": 3,
+                "term": "Special§Born to Die"
+              },
+              "Death Crafter": {
+                "number": -6,
+                "order": 4,
+                "term": "Special§Death Crafter"
+              },
+              "Energy Push": {
+                "number": -3,
+                "order": 5,
+                "term": "Special§Energy Push"
+              },
+              "Expert Stitcher": {
+                "number": -3,
+                "order": 6,
+                "term": "Special§Expert Stitcher"
+              },
+              "Extra Meat": {
+                "number": -4,
+                "order": 7,
+                "term": "Special§Extra Meat"
+              },
+              "Magic in the Blood": {
+                "number": -3,
+                "order": 8,
+                "term": "Special§Magic in the Blood"
+              },
+              "Necrogenesis": {
+                "number": -6,
+                "order": 9,
+                "term": "Special§Necrogenesis"
+              },
+              "Solo Specialists": {
+                "number": -5,
+                "order": 10,
+                "term": "Special§Solo Specialists"
+              },
+              "Spirit of Alacrity": {
+                "number": -4,
+                "order": 11,
+                "term": "Special§Spirit of Alacrity"
+              },
+              "Talons of Darkness": {
+                "number": -2,
+                "order": 12,
+                "term": "Special§Talons of Darkness"
+              }
+            },
+            "statType": "rank",
+            "value": "-",
+            "visibility": "normal"
+          }
+        }
+      },
+      "Reward§Artifact of Power (adv)": {
+        "rules": {
+          "Select a skill to grant to your Necromancer.": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "traits"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Special",
+                  "processed",
+                  "term",
+                  "current"
+                ]
+              },
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "tracked",
+                    "Cost"
+                  ]
+                ],
+                "value": [
+                  "{self}",
+                  "stats",
+                  "Special",
+                  "processed",
+                  "numeric",
+                  "current"
+                ]
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": true,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Special",
+                    "value"
+                  ]
+                ],
+                "value": "-"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "warning",
+            "order": 20
+          }
+        },
+        "stats": {
+          "Special": {
+            "dynamic": true,
+            "ranks": {
+              "-": {
+                "order": 0
+              },
+              "Aura of Weakness": {
+                "number": -7,
+                "order": 1,
+                "term": "Special§Aura of Weakness"
+              },
+              "Bane of the Faithful": {
+                "number": -8,
+                "order": 2,
+                "term": "Special§Bane of the Faithful"
+              },
+              "Blood Gorger": {
+                "number": -6,
+                "order": 3,
+                "term": "Special§Blood Gorger"
+              },
+              "Body of Bugs": {
+                "number": -4,
+                "order": 4,
+                "term": "Special§Body of Bugs"
+              },
+              "Born to Die": {
+                "number": -5,
+                "order": 5,
+                "term": "Special§Born to Die"
+              },
+              "Death Crafter": {
+                "number": -6,
+                "order": 6,
+                "term": "Special§Death Crafter"
+              },
+              "Death Rattle": {
+                "number": -8,
+                "order": 7,
+                "term": "Special§Death Rattle"
+              },
+              "Destructive Power": {
+                "number": -7,
+                "order": 8,
+                "term": "Special§Destructive Power"
+              },
+              "Energy Push": {
+                "number": -3,
+                "order": 9,
+                "term": "Special§Energy Push"
+              },
+              "Entropic Power": {
+                "number": -8,
+                "order": 10,
+                "term": "Special§Entropic Power"
+              },
+              "Expert Stitcher": {
+                "number": -3,
+                "order": 11,
+                "term": "Special§Expert Stitcher"
+              },
+              "Extra Meat": {
+                "number": -4,
+                "order": 12,
+                "term": "Special§Extra Meat"
+              },
+              "Grafting Specialist": {
+                "number": -7,
+                "order": 13,
+                "term": "Special§Grafting Specialist"
+              },
+              "Magic in the Blood": {
+                "number": -3,
+                "order": 14,
+                "term": "Special§Magic in the Blood"
+              },
+              "Necrogenesis": {
+                "number": -6,
+                "order": 15,
+                "term": "Special§Necrogenesis"
+              },
+              "Pack Killers": {
+                "number": -9,
+                "order": 16,
+                "term": "Special§Pack Killers"
+              },
+              "Power of Unlife": {
+                "number": -8,
+                "order": 17,
+                "term": "Special§Power of Unlife"
+              },
+              "Solo Specialists": {
+                "number": -5,
+                "order": 18,
+                "term": "Special§Solo Specialists"
+              },
+              "Speed of the Fell Wind": {
+                "number": -10,
+                "order": 19,
+                "term": "Special§Speed of the Fell Wind"
+              },
+              "Spirit of Alacrity": {
+                "number": -4,
+                "order": 20,
+                "term": "Special§Spirit of Alacrity"
+              },
+              "Talons of Darkness": {
+                "number": -2,
+                "order": 21,
+                "term": "Special§Talons of Darkness"
+              }
+            },
+            "statType": "rank",
+            "value": "-",
+            "visibility": "normal"
+          }
+        }
+      },
+      "Reward§Dark Apotheosis": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "traits",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Energy",
+                    "value"
+                  ]
+                ],
+                "value": 4
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "text": "Your Necromancer gains a\npermanent +1 bonus to all attempts to Restore Minions and Raise New Undead during the Post-Game Process.  Finally, they gain 4 additional\nNecromantic Energy permanently."
+      },
+      "Reward§Dark Apotheosis (adv)": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "traits",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Energy",
+                    "value"
+                  ]
+                ],
+                "value": 8
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "text": "Your Necromancer gains  a\npermanent +2 bonus to all attempts to Restore Minions and Raise New Undead during the Post-Game Process.  Finally, they gain 8 additional\nNecromantic Energy permanently."
+      },
+      "Reward§Kill the King": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{parent}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "stats",
+                    "Impedimenta",
+                    "max"
+                  ]
+                ],
+                "value": 4
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass"
+          }
+        },
+        "text": "The maximum Impedimenta of the Necromancer’s Lair\nincreases by 4."
+      },
+      "Reward§Ritual": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Energy",
+                    "value"
+                  ]
+                ],
+                "value": 1
+              },
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Necromantic Power",
+                    "max"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 20
+          }
+        }
+      },
+      "Reward§Ritual (adv)": {
+        "rules": {
+          "apply": {
+            "actions": [
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Energy",
+                    "value"
+                  ]
+                ],
+                "value": 2
+              },
+              {
+                "actionType": "modify",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{roster}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    "Necromantic Power",
+                    "max"
+                  ]
+                ],
+                "value": 1
+              }
+            ],
+            "evals": [],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 20
+          }
+        }
+      },
+      "Risen Hero§King’s Champion": {
+        "assets": {
+          "traits": [
+            "Special§Destructive Assault",
+            "Special§Unshakable",
+            "Special§Deadly Riposte"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 8
+          },
+          "Durability": {
+            "value": 30
+          },
+          "Movement": {
+            "format": "{v}″ fly",
+            "value": 7
+          },
+          "Offense": {
+            "value": 10
+          },
+          "Rating": {
+            "value": 4
+          },
+          "Resist": {
+            "value": 7
+          }
+        },
+        "text": "The King’s Champion is treated as a Paladin for Activation Order."
+      },
+      "Risen Hero§Lord’s Champion": {
+        "assets": {
+          "traits": [
+            "Special§Destroyer of Evil",
+            "Special§Determined Fighter"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 7
+          },
+          "Durability": {
+            "value": 25
+          },
+          "Movement": {
+            "value": 5
+          },
+          "Offense": {
+            "value": 8
+          },
+          "Rating": {
+            "value": 3
+          },
+          "Resist": {
+            "value": 7
+          }
+        },
+        "text": "The Lord’s Champion is treated as a Paladin for Activation Order."
+      },
+      "Risen Hero§Paladin": {
+        "assets": {
+          "traits": [
+            "Special§Faith Protects",
+            "Special§Stalwart of Faith"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Durability": {
+            "value": 10
+          },
+          "Dx": {
+            "value": 4
+          },
+          "Movement": {
+            "value": 5
+          },
+          "Offense": {
+            "value": 5
+          },
+          "Rating": {
+            "max": 4,
+            "min": 2,
+            "value": 2
+          },
+          "Resist": {
+            "value": 4
+          },
+          "Rng": {
+            "value": 12
+          }
+        }
+      },
+      "Risen Hero§Priest": {
+        "assets": {
+          "traits": [
+            "Special§Blessed Weapons",
+            "Special§Stalwart of Faith"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Durability": {
+            "value": 6
+          },
+          "Dx": {
+            "value": 3
+          },
+          "Movement": {
+            "value": 5
+          },
+          "Offense": {
+            "value": 3
+          },
+          "Rating": {
+            "max": 4,
+            "min": 2,
+            "value": 2
+          },
+          "Resist": {
+            "value": 4
+          },
+          "Rng": {
+            "value": 12
+          }
+        }
+      },
+      "Risen Hero§Ranger": {
+        "assets": {
+          "traits": [
+            "Special§Pinning Shot",
+            "Special§Skirmish"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 2
+          },
+          "Durability": {
+            "value": 8
+          },
+          "Dx": {
+            "value": 3
+          },
+          "Movement": {
+            "value": 8
+          },
+          "Offense": {
+            "value": 5
+          },
+          "Rating": {
+            "max": 4,
+            "min": 2,
+            "value": 2
+          },
+          "Resist": {
+            "value": 3
+          },
+          "Rng": {
+            "value": 24
+          }
+        }
+      },
+      "Risen Hero§Rogue": {
+        "assets": {
+          "traits": [
+            "Special§Evade Danger",
+            "Special§Light Footwork"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 2
+          },
+          "Durability": {
+            "value": 8
+          },
+          "Dx": {
+            "value": 2
+          },
+          "Movement": {
+            "value": 7
+          },
+          "Offense": {
+            "value": 6
+          },
+          "Rating": {
+            "max": 3,
+            "min": 2,
+            "value": 2
+          },
+          "Resist": {
+            "value": 2
+          },
+          "Rng": {
+            "value": 8
+          }
+        }
+      },
+      "Risen Hero§Villager": {
+        "assets": {
+          "traits": [
+            "Special§Rabble Rousing"
+          ]
+        },
+        "removed": {
+          "rules": {
+            "applyStats": {}
+          }
+        },
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Durability": {
+            "value": 8
+          },
+          "Movement": {
+            "value": 5
+          },
+          "Offense": {
+            "value": 3
+          },
+          "Rating": {
+            "dynamic": false,
+            "value": 1
+          },
+          "Resist": {
+            "value": 4
+          },
+          "Rng": {
+            "value": 8
+          }
+        }
+      },
+      "Risen Hero§Warrior": {
+        "assets": {
+          "traits": [
+            "Special§Riposte",
+            "Special§Defensive Specialist"
+          ]
+        },
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Durability": {
+            "value": 10
+          },
+          "Dx": {
+            "value": 3
+          },
+          "Movement": {
+            "value": 6
+          },
+          "Offense": {
+            "value": 4
+          },
+          "Rating": {
+            "max": 3,
+            "min": 2,
+            "value": 2
+          },
+          "Resist": {
+            "value": 3
+          }
+        }
+      },
+      "Risen Hero§Wizard": {
+        "stats": {
+          "Defense": {
+            "value": 3
+          },
+          "Durability": {
+            "value": 8
+          },
+          "Dx": {
+            "value": 1
+          },
+          "Movement": {
+            "format": "{v}″ fly",
+            "value": 6
+          },
+          "Offense": {
+            "value": 2
+          },
+          "Rating": {
+            "max": 4,
+            "min": 2,
+            "value": 2
+          },
+          "Resist": {
+            "value": 6
+          },
+          "Rng": {
+            "value": 20
+          }
+        }
+      },
       "Roster§Roster": {
         "allowed": {
           "classifications": [
@@ -2049,6 +4939,94 @@
             ],
             "evaluate": "AND",
             "failState": "error"
+          },
+          "storyMode": {
+            "actions": [
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "allowed",
+                    "classifications"
+                  ]
+                ],
+                "value": "Advancement"
+              },
+              {
+                "actionType": "set",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Necromancer",
+                    "stats",
+                    [
+                      "XP",
+                      "Unspent"
+                    ],
+                    "visibility"
+                  ]
+                ],
+                "value": "normal"
+              },
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "traits"
+                  ]
+                ],
+                "value": "Lair§Lair"
+              },
+              {
+                "actionType": "add",
+                "iterations": 1,
+                "paths": [
+                  [
+                    "{self}",
+                    "allowed",
+                    "classifications"
+                  ],
+                  [
+                    "{self}",
+                    "assets",
+                    "classification",
+                    "Lair",
+                    "allowed",
+                    "classifications"
+                  ]
+                ],
+                "value": "Risen Hero"
+              }
+            ],
+            "evals": [
+              {
+                "actionable": true,
+                "not": false,
+                "operator": "AND",
+                "paths": [
+                  [
+                    "{self}",
+                    "stats",
+                    "Play",
+                    "value"
+                  ]
+                ],
+                "value": "Story"
+              }
+            ],
+            "evaluate": "AND",
+            "failState": "pass",
+            "order": 2
           }
         },
         "stats": {
@@ -2059,17 +5037,12 @@
                 "order": 0
               },
               "Story": {
-                "order": 1,
-                "traits": [
-                  {
-                    "trait": "Lair§Lair"
-                  }
-                ]
+                "order": 1
               }
             },
             "statType": "rank",
             "value": "Skirmish",
-            "visibility": "hidden"
+            "visibility": "active"
           },
           "Rating": {
             "max": 7,
@@ -2091,6 +5064,9 @@
       },
       "Special§Black Bolt": {
         "text": "Whenever this model deals damage to an enemy that is already wounded (below its maximum Durability), that enemy is Slowed until the end of the turn. A Slowed model has its movement reduced by 2."
+      },
+      "Special§Blessed Weapons": {
+        "text": "Whenever the Hero rolls a Critical Hit with an\nOffense attack against a Necromantic Minion, the Hero deals 1 additional\ndamage (this is in addition to the normal damage from a Critical Hit)."
       },
       "Special§Blood Drain": {
         "text": "When attacking living foes, Vampires can drain their enemies of their very vitae, restoring their own life force. Whenever a Vampire scores a Critical Hit (rolling a 10 on the D10 to attack) against a foe of the Shambler, Feeder, or Hero type, they heal 3 Durability for each such dice rolled."
@@ -2256,8 +5232,23 @@
       "Special§Deadly Duelist": {
         "text": "When this model deals damage as part of an Offense attack, the target is also Weakened until the end of the turn. If that enemy dies or is destroyed while it is Weakened, the Death Knight heals 3 Durability."
       },
+      "Special§Deadly Riposte": {
+        "text": "Whenever an Offense attack is made against the\nHero, each dice roll in the attack that rolls an unmodified 1\ncauses 2 damage to the attacking model, once all results of that attack have\nbeen resolved."
+      },
       "Special§Death Scream": {
         "text": "When this model is destroyed, before it is Removed from Play, it may make a single attack, which may target Resist instead of Defense, against all enemies within 3″ of itself."
+      },
+      "Special§Defensive Specialist": {
+        "text": "This model increases its Defense by 2\nwhenever there is only a single enemy within 1” of this model."
+      },
+      "Special§Destroyer of Evil": {
+        "text": "Whenever the Hero rolls a Critical\nHit as part of an Offense attack, this attack deals an additional 2 damage (4\ndamage total)."
+      },
+      "Special§Destructive Assault": {
+        "text": "Each successful roll made as part of an Offense\nattack results in 2 damage instead of 1 (Critical Hits add 1 additional damage\nas normal). In addition, the Hero may reroll 2 dice each time it\nmakes an Offense attack."
+      },
+      "Special§Determined Fighter": {
+        "text": "When the Hero activates, it\nremoves 1 condition that is currently affecting it. If there are multiple\nconditions, roll randomly to determine which condition is removed. In\naddition, the Hero heals 1 Durability whenever it activates."
       },
       "Special§Discorporate": {
         "text": "The first time in a turn that the Vampire suffers a Critical Hit as part of an Offense attack, after that damage is resolved, the Vampire becomes a cloud of bats, mist, or similar. The Vampire may immediately move. Until the end of that turn, the Vampire cannot be the target of Offense attacks."
@@ -2310,6 +5301,12 @@
         },
         "text": "Increase the maximum Rating of undead you may bring to any Scenario by 4 (i.e., increase the maximum allowed total Rating of undead from 15 to 19). However, the Dread Horde Master is prohibited from starting with, or ever recruiting, any undead with a Rating greater than 2. This rule does not alter the number of undead that the Dread Horde Master can recruit upon creation. In addition, whenever one of your Necromantic Minions attacks an enemy within 1″ of a different friendly Necromantic Minion, their Offense is increased by 1 for that attack."
       },
+      "Special§Easy Access": {
+        "aspects": {
+          "Visibility": "active"
+        },
+        "text": "During your first two Story Play missions, you\nmay activate up to 4 Rating worth of Necromantic Minions twice (activating\nyour Necromancer each time as normal), before the Heroes activate."
+      },
       "Special§Enraged Monstrosity": {
         "text": "When this model is at Durability 12 or less, its Offense increases to 10."
       },
@@ -2318,6 +5315,12 @@
       },
       "Special§Ethereal": {
         "text": "Ethereal minions may pass through other models when moving, as well as pass through impassable terrain, walls, and other blocking elements of scenery. The models must come to rest on open ground as per Ending a Move, page 44. \n\nEthereal models do not suffer effects from moving onto, over, or stopping on terrain. Ethereal models ignore such effects, such as the effects of Swamps or Pools."
+      },
+      "Special§Evade Danger": {
+        "text": "The first time in any turn when an enemy ends\ntheir movement within 2” of the Hero, the Hero must immediately move\n7” directly away from the enemy."
+      },
+      "Special§Faith Protects": {
+        "text": "Whenever a Necromantic Power is used against the\nHero, the Necromancer must reroll all successful power dice."
       },
       "Special§Feasting Rejuvenation": {
         "rules": {
@@ -2376,8 +5379,14 @@
       "Special§Keening Wail": {
         "text": "When this model attacks, they may choose to target enemy Resist instead of Defense when making an attack. In addition, the Banshee may choose to attack all enemies within 3″ of itself (rolling for each enemy)."
       },
+      "Special§Light Footwork": {
+        "text": "This model ignores any reduction to movement\nfrom terrain. In addition, this model can never suffer any negative effects or\ndamage from terrain."
+      },
       "Special§Lost in Shadows": {
         "text": "If this model is completely on a terrain feature, no other model may draw line of sight to it as long as they are more than 3″ away."
+      },
+      "Special§Magical Shielding": {
+        "text": "The Hero gains a +3 bonus to Defense for\nthe first Offense attack made against it each turn."
       },
       "Special§Necromantic Power": {
         "rules": {
@@ -2438,11 +5447,29 @@
       "Special§Nothing but Bones": {
         "text": "Skeletons are particularly difficult to permanently damage. Whenever this model suffers damage from an Offense attack, reduce that damage by 1."
       },
+      "Special§Out of the Way": {
+        "aspects": {
+          "Visibility": "active"
+        },
+        "text": "You receive a -1 to your roll to determine\nif you have a Lair Assault until you roll at least one Lair Assault."
+      },
+      "Special§Pinning Shot": {
+        "text": "Whenever the Hero rolls a Critical Hit with an\nOffense attack with one or more dice, if the target suffers any damage from\nthe attack, the target’s movement is reduced by 2” until the end of the turn."
+      },
       "Special§Preternatural Speed": {
         "text": "Vampires can move with incredible alacrity when challenged. A Vampire can move twice on its turn, in addition to taking a normal action. It may use these moves before or after it uses its action, or split them before and after its action."
       },
+      "Special§Previous Residents, Fresh Bodies": {
+        "aspects": {
+          "Visibility": "active"
+        },
+        "text": "During your first two\nStory Play missions, you gain a +1 bonus to your roll during the Post-Game\nProcess when you are rolling to Restore Minions (see page 91)."
+      },
       "Special§Quest for Vengeance": {
         "text": "When this model makes an attack roll against a Hero, its Offense increases by 1 and it may reroll 1 dice from its attack roll."
+      },
+      "Special§Rabble Rousing": {
+        "text": "The Hero gains a +1 bonus to Offense for each\nother Hero of the same name within 3”."
       },
       "Special§Reaper of Flesh": {
         "rules": {
@@ -2476,6 +5503,9 @@
         },
         "text": "Increase the Offense and Defense of your Necromancer by 1. Whenever your Necromancer destroys an enemy within 1″, they gain 1 Necromantic Energy (this is in addition to the normal energy gained)."
       },
+      "Special§Riposte": {
+        "text": "Whenever the Hero suffers damage from an Offense\nattack from an attacker within 1”, the attacker suffers 1 damage for each\nnatural 1 rolled by the attacker."
+      },
       "Special§Rotting End": {
         "text": "Whenever this model is reduced to 0 Durability, if the damage that reduced its Durability to 0 did not include at least 1 Critical Hit, then this model is reduced to 1 Durability and all further damage from that attack is ignored."
       },
@@ -2484,6 +5514,9 @@
       },
       "Special§Scampering Claws": {
         "text": "This model may climb without spending any additional movement."
+      },
+      "Special§Skirmish": {
+        "text": "Whenever an enemy model ends their activation within\n1” of the Hero, at the end of that activation, the Hero moves up to 8”\ndirectly away from that enemy, ending the move outside of 1” of any other\nenemies if possible."
       },
       "Special§Soul Herder": {
         "rules": {
@@ -2546,6 +5579,9 @@
         },
         "text": "The Spirit Caller may only recruit undead of the Spirit type. Increase the movement stat of all undead recruited by the Spirit Caller by 1."
       },
+      "Special§Stalwart of Faith": {
+        "text": "The Priest is immune to the Weakened and\nCursed conditions and heals 1 Durability at the start of its activation."
+      },
       "Special§Swallow Whole": {
         "text": "Whenever this model makes an attack, and at least 2 of the dice for that attack are a Critical Hit, if the target of the attack is Rating 1 or 2, then the target is immediately destroyed and Removed from Play. If the target is Rating 3 or higher, then the attack deals an extra 4 damage."
       },
@@ -2558,8 +5594,14 @@
       "Special§Unraveled Flight": {
         "text": "Once per game, the Mummy may teleport instead of moving during its turn. If it does, remove it from the battlefield and set it up again anywhere within line of sight that is more than 1″ from all other models."
       },
+      "Special§Unshakable": {
+        "text": "The Hero is immune to the Weakened\ncondition. In addition, whenever the Hero activates, they heal\n1D3 Durability."
+      },
       "Special§Unstoppable Brute": {
         "text": "When this model moves, it may ignore intervening models, but it may not finish its move on any other model."
+      },
+      "Special§Walk the Mists": {
+        "text": "At the start of each turn before any activations, if an enemy is within 6” of the Hero, it will teleport 12” directly away from\nthe nearest enemy."
       }
     },
     "gameModes": {},
